@@ -1,1 +1,22 @@
-<p>pie-chart works!</p>
+<!-- <div class="chart" *ngIf="pieChartData">
+  <canvas baseChart>
+    [data]="pieChartData"
+    [colors]="pieChartColors "
+    [labels]="pieChartLabels"
+    [chartType]="pieChartType"
+  </canvas>
+</div> -->
+
+
+<div class="chart">
+  <canvas baseChart
+    [datasets]="pieChartData"
+    [labels]="pieChartLabels"
+    [options]="pieChartOptions"
+    [colors]="colors"
+
+    [legend]="pieChartLegend"
+    [chartType]="pieChartType"
+  ></canvas>
+</div>
+
