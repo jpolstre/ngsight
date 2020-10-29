@@ -18,21 +18,15 @@
         <td>{{ order.customer.name }}</td>
         <td>{{ order.total }}</td>
         <td>{{ order.placed | date: 'short' }}</td>
-        <td>{{ order.fulfilled | date: 'short' }}</td>
-        <td>{{order.status}}</td>
+        <td>{{ order.completed | date: 'short' }}</td>
+        <td>status</td>
       </tr>
     </tbody>
     <!-- recibe la emisiones de los botones next, previous(igual que en vue) -->
     <!-- $event es un number por la definicion de goPage en el pagination.component.ts -->
 
-    <app-pagination 
-    (goPage)="goToPage($event)"
-    (goPrev)="goToPrevious()" 
-    (goNext)="goToNext()" 
-    [page]="page"
-    [perPage]="limit"
-    [count]="total"
-    >
+    <app-pagination (goPage)="goToPage($event)" (goPrev)="goToPrevious()" (goNext)="goToNext()" [page]="page"
+      [perPage]="limit" [count]="total">
     </app-pagination>
   </table>
 </div>
