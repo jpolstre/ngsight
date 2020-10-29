@@ -1,0 +1,17 @@
+.pagination {
+  padding: 12px;
+  .btn.active {
+    background-color: #e62a2a;
+    border-color: #e62a2a;
+  }
+}
+
+.pages {
+  padding: 14px;
+  display: block;
+}
+
+.btn-pageNumber {
+  min-width: 54px;
+  margin: 2px;
+}

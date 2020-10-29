@@ -26,22 +26,25 @@ export class SectionOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
   }
+  
   getOrders(): void {
     this._salesDataScv.getOrders(this.page, this.limit).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.orders = res['page']['data'];
       this.total = res['page']['total'];
       this.totalPages = res['totalPages'];
       this.loading = false;
     });
   }
-  goToPrevious() {
+
+  goToPrevious(): void {
     if (this.page > 1) {
       this.page--;
       this.getOrders();
     }
   }
-  goToNext() {
+
+  goToNext(): void {
     if (this.page < this.totalPages) {
       this.page++;
       this.getOrders();

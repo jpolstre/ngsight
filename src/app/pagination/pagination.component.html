@@ -1,10 +1,34 @@
 <!-- emite hacia el padre(section-orders-component.* (ts, html, scss)) -->
 <div class="pages">
   <span class="page-counts">
-    X through Y of z orders
+    {{ getFrom() }} through {{ getTo() }} of {{ count }} orders
   </span>
-  <span class="page-totals">{{totalPages()}} total pages</span>
-  <button class="btn btn-small btn-info" (click)="onPrev()">Previous Page</button>
-  <b>...</b>
-  <button class="btn btn-small btn-info" (click)="onNext()">Next Page</button>
+  <span class="page-totals">{{ totalPages() }} total pages</span>
+  <div class="pagination" *ngIf="count > 0">
+    <button
+      class="btn btn-sm btn-info btn-pageNumber"
+      (click)="onPrev()"
+      [ngClass]="{ disabled: isFirstPage() || loading }"
+      [disabled]="isFirstPage() || loading"
+    >
+      Previous Page
+    </button>
+    <button
+      class="btn btn-sm btn-info btn-pageNumber"
+      *ngFor="let pageNum of getPages()"
+      (click)="onPage(pageNum)"
+      [ngClass]="{ active: pageNum === page, disabled: loading }"
+      [disabled]="pageNum === page"
+    >
+      {{ pageNum }}
+    </button>
+    <button
+      class="btn btn-sm btn-info btn-pageNumber"
+      (click)="onNext()"
+      [ngClass]="{ disabled: isLastPage() || loading }"
+      [disabled]="isLastPage() || loading"
+    >
+      Next Page
+    </button>
+  </div>
 </div>

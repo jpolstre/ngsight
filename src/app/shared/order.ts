@@ -6,5 +6,5 @@ export interface Order {
   total: number;
   placed: Date;
   completed: Date;
-  status: string;
+  status?: string;
 }
