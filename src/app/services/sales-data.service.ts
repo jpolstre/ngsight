@@ -15,5 +15,11 @@ export class SalesDataService {
     //.pipe(map(res => res.toString()));
 
   }
+  getOrdersByCustomer(n: number) {
+    return this._http.get(`${API_URL}/order/bycustomer/${n}`);
+  }
+  getOrdersByState() {
+    return this._http.get(`${API_URL}/order/bystate`);
+  }
 
 }

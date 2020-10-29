@@ -18,7 +18,7 @@ export class SectionOrdersComponent implements OnInit {
   totalPages = 0;
   total = 0;
   page = 1;
-  limit = 10;
+  limit = 7;
   loading = false;
 
   constructor(private _salesDataScv: SalesDataService) { }

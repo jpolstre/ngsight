@@ -29,9 +29,9 @@ export class BarChartComponent implements OnInit {
     responsive: true
   }
 
-  orders: Order[];
-  orderLabels: string[];
-  orderData: number[];
+  // orders: Order[];
+  // orderLabels: string[];
+  // orderData: number[];
 
 
   constructor(private _salesDataService: SalesDataService) { }
@@ -47,7 +47,7 @@ export class BarChartComponent implements OnInit {
   }
 
   getChardData(res: Object) {
-    this.orders = res['page']['data'] as Order[];
+   const orders = res['page']['data'] as Order[];
     // const { data, labels } = this.orders.reduce((result, order) => {
     //   result.data.push(order.total);
     //   result.labels.push(moment(new Date(order.placed)).format('YY-MM-DD'));
@@ -55,7 +55,7 @@ export class BarChartComponent implements OnInit {
     // }, { data: [], labels: [] });
 
 
-    const formattedOrders = this.orders.reduce((result, order) => {
+    const formattedOrders = orders.reduce((result, order) => {
       result.push([moment(order.placed).format('YY-MM-DD'), order.total])
       return result;
     }, []);
