@@ -22,5 +22,17 @@
         <td>{{order.status}}</td>
       </tr>
     </tbody>
+    <!-- recibe la emisiones de los botones next, previous(igual que en vue) -->
+    <!-- $event es un number por la definicion de goPage en el pagination.component.ts -->
+
+    <app-pagination 
+    (goPage)="goToPage($event)"
+    (goPrev)="goToPrevious()" 
+    (goNext)="goToNext()" 
+    [page]="page"
+    [perPage]="limit"
+    [count]="total"
+    >
+    </app-pagination>
   </table>
 </div>
