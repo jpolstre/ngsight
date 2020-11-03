@@ -1,6 +1,8 @@
-import { Order } from './../../shared/order';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Order } from './../../shared/models/order';
 import { SalesDataService } from './../../services/sales-data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 
 // const SAMPLE_BARCHART_DATA: any[] = [
@@ -13,9 +15,10 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss']
+  styleUrls: ['./bar-chart.component.scss'],
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnDestroy {
+  private $destroySubs = new Subject<any>();
 
   // =SAMPLE_BARCHART_DATA;
   public barChartData: any[] = [];
@@ -26,41 +29,42 @@ export class BarChartComponent implements OnInit {
   public barChartLegend = true;
   public barChartOptions: any = {
     scaleShadowVerticalLines: false,
-    responsive: true
-  }
+    responsive: true,
+  };
 
   // orders: Order[];
   // orderLabels: string[];
   // orderData: number[];
 
-
-  constructor(private _salesDataService: SalesDataService) { }
-
+  constructor(private _salesDataService: SalesDataService) {}
 
   ngOnInit(): void {
-    this._salesDataService.getOrders(1, 100)
-      .subscribe(res => {
+    this._salesDataService
+      .getOrders(1, 100)
+      .pipe(takeUntil(this.$destroySubs))
+      .subscribe((res) => {
         const localCharData = this.getChardData(res);
-        this.barChartLabels = localCharData.map(x => x[0]).reverse();
-        this.barChartData = [{ data: localCharData.map(x => x[1]), label: 'Sales' }];
+        this.barChartLabels = localCharData.map((x) => x[0]).reverse();
+        this.barChartData = [
+          { data: localCharData.map((x) => x[1]), label: 'Sales' },
+        ];
       });
   }
 
   getChardData(res: Object) {
-   const orders = res['page']['data'] as Order[];
+    const orders = res['page']['data'] as Order[];
     // const { data, labels } = this.orders.reduce((result, order) => {
     //   result.data.push(order.total);
     //   result.labels.push(moment(new Date(order.placed)).format('YY-MM-DD'));
     //   return result;
     // }, { data: [], labels: [] });
 
-
     const formattedOrders = orders.reduce((result, order) => {
-      result.push([moment(order.placed).format('YY-MM-DD'), order.total])
+      result.push([moment(order.placed).format('YY-MM-DD'), order.total]);
       return result;
     }, []);
 
-    const p = {}//[] es lo mismo.
+    const p = {}; //[] es lo mismo.
 
     const chartData = formattedOrders.reduce((result, formatOrder) => {
       const key = formatOrder[0];
@@ -71,12 +75,12 @@ export class BarChartComponent implements OnInit {
         p[key][1] += formatOrder[1];
       }
       return result;
-
     }, []);
 
     return chartData;
-
-
   }
-
+  ngOnDestroy(): void {
+    this.$destroySubs.next({});
+    this.$destroySubs.complete();
+  }
 }

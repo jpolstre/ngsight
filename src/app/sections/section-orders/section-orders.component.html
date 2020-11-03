@@ -1,14 +1,89 @@
 <div class="section-container">
   <h2>Latest Orders</h2>
+
+  <hr style="border-top: 1px solid rgba(255, 255, 255, 0.2)" />
+
+  <div class="toolBar my-2">
+    <form class="form-inline" (submit)="onFilter($event)">
+      <div class="form-group mx-sm-3 mb-2">
+        <input
+          [value]="filterTerm"
+          (input)="filterTerm = $event.target.value"
+          type="text"
+          class="form-control"
+          #filterInputRef
+          placeholder="Filter Customer"
+        />
+
+        <!--work!!=> (click)="filterTerm = ''; getOrders(); filterInputRef.focus();" -->
+        <button
+          *ngIf="filterTerm.trim() !== ''"
+          (click)="cleanFilter()"
+          type="button"
+          class="btn btn-primary btn-sm px-2 py-0 cursor-pointer"
+          style="border-radius: 50%; margin-left: -30px"
+        >
+          x
+        </button>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Filter</button>
+    </form>
+    <select
+      class="custom-select"
+      (change)="page = 1; limit = $event.target.value * 1; getOrders()"
+    >
+      <option selected value="8">8</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+
   <table class="table table-inverse table-hover">
-    <thead class="thead-dark">
+    <thead class="thead-dark noselect">
       <tr>
-        <th>ID</th>
-        <th>Customer</th>
-        <th>Amunt</th>
-        <th>Order Placed</th>
-        <th>Order Fulfilled</th>
-        <th>Status</th>
+        <th>
+          <span
+            class="title-column"
+            [ngClass]="getClassSort('Id')"
+            (click)="sort('Id')"
+            >ID</span
+          >
+        </th>
+        <th>
+          <span
+            class="title-column"
+            [ngClass]="getClassSort('Customer')"
+            (click)="sort('Customer')"
+            >Customer</span
+          >
+        </th>
+        <th>
+          <span
+            class="title-column"
+            [ngClass]="getClassSort('Total')"
+            (click)="sort('Total')"
+            >Amunt</span
+          >
+        </th>
+        <th>
+          <span
+            class="title-column"
+            [ngClass]="getClassSort('Placed')"
+            (click)="sort('Placed')"
+            >Order Placed</span
+          >
+        </th>
+        <th>
+          <span
+            class="title-column"
+            [ngClass]="getClassSort('Completed')"
+            (click)="sort('Completed')"
+            >Order Fulfilled</span
+          >
+        </th>
+        <th><span class="title-column">Status</span></th>
       </tr>
     </thead>
     <tbody>
